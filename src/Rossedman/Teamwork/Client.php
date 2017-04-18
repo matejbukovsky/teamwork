@@ -6,12 +6,12 @@ use Rossedman\Teamwork\Contracts\RequestableInterface;
 class Client implements RequestableInterface {
 
     /**
-     * @var GuzzleHttp\Client
+     * @var GuzzleHttp\Psr7\Client
      */
     protected $client;
 
     /**
-     * @var GuzzleHttp\Request
+     * @var \GuzzleHttp\Psr7\Request
      */
     protected $request;
 
@@ -202,7 +202,7 @@ class Client implements RequestableInterface {
      */
     public function buildQuery($query)
     {
-        $q = $this->request->getQuery();
+        $q = $this->request->getHeaders();
 
         foreach ($query as $key => $value)
         {
