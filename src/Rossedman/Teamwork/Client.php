@@ -136,7 +136,7 @@ class Client implements RequestableInterface {
 
         $options = ['auth' => [$this->key, 'X']];
 
-		if ($action == 'POST') {
+		if ($action == 'POST' || $action == 'PUT') {
 			$options = array_merge(['body' => $params], $options);
 		}
 
