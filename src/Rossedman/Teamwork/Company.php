@@ -34,5 +34,18 @@ class Company extends AbstractObject {
     public function projects()
     {
         return $this->client->get("$this->endpoint/$this->id/projects")->response();
-    }    
+    }
+
+	 /**
+     * GET /companies.json
+     *
+     * @return mixed
+     */
+    public function all($args = null)
+    {
+        $this->areArgumentsValid($args, ['page', 'pageSize']);
+
+        return $this->client->get($this->endpoint, $args)->response();
+    }
+
 }
