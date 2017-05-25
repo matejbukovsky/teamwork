@@ -127,7 +127,7 @@ class Client implements RequestableInterface {
      *
      * @return $this
      */
-    public function buildRequest($endpoint, $action, $params = [], $query = null)
+    public function buildRequest($endpoint, $action, $params = [], $query = [])
     {
         if (count($params) > 0)
         {
@@ -140,14 +140,15 @@ class Client implements RequestableInterface {
 			$options = array_merge(['body' => $params], $options);
 		}
 
-		$this->request = $this->client->request($action,
-			$this->buildUrl($endpoint), $options
-        );
 
         if ($query != null)
         {
-            $this->buildQuery($query);
+            $options['query'] = $query;
         }
+
+		$this->request = $this->client->request($action,
+			$this->buildUrl($endpoint), $options
+        );
 
         return $this;
     }
@@ -187,27 +188,7 @@ class Client implements RequestableInterface {
         {
             $this->url = $this->url . '/';
         }
-
         return $this->url . $endpoint . '.' . $this->dataFormat;
-    }
-
-    /**
-     * Build Query String
-     *
-     * if a query string is needed it will be built up
-     * and added to the request. This is only used in certain
-     * GET requests
-     *
-     * @param $query
-     */
-    public function buildQuery($query)
-    {
-        $q = $this->request->getHeaders();
-
-        foreach ($query as $key => $value)
-        {
-            $q[$key] = $value;
-        }
     }
 
     /**
